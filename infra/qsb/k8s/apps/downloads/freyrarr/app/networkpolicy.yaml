@@ -1,18 +1,27 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/cilium.io/ciliumnetworkpolicy_v2.json
-apiVersion: cilium.io/v2
-kind: CiliumNetworkPolicy
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
 metadata:
   name: freyrarr
 spec:
-  endpointSelector:
+  podSelector:
     matchLabels:
       app.kubernetes.io/name: freyrarr
+  policyTypes: [Ingress, Egress]
   egress:
-    - toEndpoints:
-        - matchLabels:
-            app.kubernetes.io/name: lidarr
-      toPorts:
-        - ports:
-            - port: '8686'
-              protocol: TCP
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - port: 53
+          protocol: UDP
+        - port: 8686
+          protocol: TCP
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+            except: [10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16]

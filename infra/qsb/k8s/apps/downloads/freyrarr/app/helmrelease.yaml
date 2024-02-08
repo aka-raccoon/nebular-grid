@@ -34,7 +34,7 @@ spec:
           main:
             image:
               repository: ghcr.io/aka-raccoon/freyrarr
-              tag: 0.0.3@sha256:8a48d7a4147c3d6bc769cc17f54a0032c18be05b094f7bd68e266c4eda76bdd3
+              tag: 0.0.2
             env:
               DATA_DIR: /data/nas-media/downloads/freyrarr
               LIDARR_URL: http://lidarr.downloads.svc.cluster.local
@@ -72,7 +72,6 @@ spec:
             env:
               VPN_SERVICE_PROVIDER: privado
               FIREWALL_DEBUG: true
-              FIREWALL_INPUT_PORTS: 80
               FIREWALL_OUTBOUND_SUBNETS: 10.96.0.0/12,10.244.0.0/16  # Allow access to k8s subnets
               SERVER_CITIES: Amsterdam,Prague
             envFrom:
